@@ -2,9 +2,31 @@
   "name": "reveal.js-menu",
   "version": "2.1.0",
   "description": "A slideout menu for navigating reveal.js presentations",
+  "main": "menu.js",
+  "module": "menu.esm.js",
+  "exports": {
+    ".": {
+      "import": "./menu.esm.js",
+      "require": "./menu.js",
+      "default": "./menu.js"
+    },
+    "./menu.css": "./menu.css",
+    "./menu.js": "./menu.js",
+    "./menu.esm.js": "./menu.esm.js"
+  },
+  "files": [
+    "menu.js",
+    "menu.esm.js",
+    "menu.css",
+    "plugin.js",
+    "font-awesome",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "gulp"
+    "build": "gulp",
+    "prepublishOnly": "gulp"
   },
   "repository": {
     "type": "git",
