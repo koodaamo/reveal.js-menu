@@ -1,6 +1,6 @@
 {
   "name": "reveal.js-menu",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "A slideout menu for navigating reveal.js presentations",
   "main": "menu.js",
   "module": "menu.esm.js",
