@@ -707,8 +707,13 @@ const Plugin = () => {
         id: 'close',
         class: 'toolbar-panel-button'
       });
-      button.appendChild(create('i', { class: options.icons.close }));
-      button.appendChild(create('br'));
+      if (options.icons.close && options.icons.close.startsWith('fa-')) {
+        button.appendChild(create('i', { class: options.icons.close }));
+        button.appendChild(create('br'));
+      } else {
+        button.innerHTML = (options.icons.close || '✕');
+        button.appendChild(create('br'));
+      }
       button.appendChild(
         create('span', { class: 'slide-menu-toolbar-label' }, 'Close')
       );
