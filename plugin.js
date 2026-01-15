@@ -1209,6 +1209,11 @@ const Plugin = () => {
       deck = reveal;
       config = deck.getConfig();
       initOptions(config);
+      // Skip CSS/Icon loading if loadCSS is explicitly set to false (for bundled builds)
+      if (options.loadCSS === false) {
+        loadPlugin();
+        return;
+      }
       loadResource(options.path + 'menu.css', 'stylesheet', function () {
         if (options.loadIcons === undefined || options.loadIcons) {
           loadResource(
