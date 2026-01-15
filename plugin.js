@@ -70,6 +70,7 @@ const Plugin = () => {
     if (!options.icons.transitionsStyle) options.icons.transitionsStyle = 'fas';
     if (!options.icons.markerPast) options.icons.markerPast = 'fas fa-check-circle fa-fw past';
     if (!options.icons.markerActive) options.icons.markerActive = 'fas fa-arrow-alt-circle-right fa-fw active';
+    if (!options.icons.close) options.icons.close = 'fas fa-times';
     if (!options.icons.markerFuture) options.icons.markerFuture = 'far fa-circle fa-fw future';
 
     if (typeof options.themesPath !== 'string')
@@ -706,7 +707,7 @@ const Plugin = () => {
         id: 'close',
         class: 'toolbar-panel-button'
       });
-      button.appendChild(create('i', { class: 'fas fa-times' }));
+      button.appendChild(create('i', { class: options.icons.close }));
       button.appendChild(create('br'));
       button.appendChild(
         create('span', { class: 'slide-menu-toolbar-label' }, 'Close')
