@@ -60,18 +60,6 @@ const Plugin = () => {
 
     if (options.markers === undefined) options.markers = true;
 
-    // Icon configuration - defaults to Font Awesome classes
-    if (typeof options.icons !== 'object') options.icons = {};
-    if (!options.icons.contents) options.icons.contents = 'fa-images';
-    if (!options.icons.contentsStyle) options.icons.contentsStyle = 'fas';
-    if (!options.icons.themes) options.icons.themes = 'fa-adjust';
-    if (!options.icons.themesStyle) options.icons.themesStyle = 'fas';
-    if (!options.icons.transitions) options.icons.transitions = 'fa-sticky-note';
-    if (!options.icons.transitionsStyle) options.icons.transitionsStyle = 'fas';
-    if (!options.icons.markerPast) options.icons.markerPast = 'fas fa-check-circle fa-fw past';
-    if (!options.icons.markerActive) options.icons.markerActive = 'fas fa-arrow-alt-circle-right fa-fw active';
-    if (!options.icons.markerFuture) options.icons.markerFuture = 'far fa-circle fa-fw future';
-
     if (typeof options.themesPath !== 'string')
       options.themesPath = 'dist/theme/';
     if (!options.themesPath.endsWith('/')) options.themesPath += '/';
@@ -676,7 +664,7 @@ const Plugin = () => {
         return button;
       }
 
-      addToolbarButton('Contents', 'Slides', options.icons.contents, options.icons.contentsStyle, openPanel, true);
+      addToolbarButton('Contents', 'Slides', 'fa-images', 'fas', openPanel, true);
 
       if (options.custom) {
         options.custom.forEach(function (element, index, array) {
@@ -691,14 +679,14 @@ const Plugin = () => {
       }
 
       if (options.themes) {
-        addToolbarButton('Themes', 'Themes', options.icons.themes, options.icons.themesStyle, openPanel);
+        addToolbarButton('Themes', 'Themes', 'fa-adjust', 'fas', openPanel);
       }
       if (options.transitions) {
         addToolbarButton(
           'Transitions',
           'Transitions',
-          options.icons.transitions,
-          options.icons.transitionsStyle,
+          'fa-sticky-note',
+          'fas',
           openPanel
         );
       }
@@ -769,9 +757,17 @@ const Plugin = () => {
         });
 
         if (options.markers) {
-          item.appendChild(create('i', { class: options.icons.markerPast }));
-          item.appendChild(create('i', { class: options.icons.markerActive }));
-          item.appendChild(create('i', { class: options.icons.markerFuture }));
+          item.appendChild(
+            create('i', { class: 'fas fa-check-circle fa-fw past' })
+          );
+          item.appendChild(
+            create('i', {
+              class: 'fas fa-arrow-alt-circle-right fa-fw active'
+            })
+          );
+          item.appendChild(
+            create('i', { class: 'far fa-circle fa-fw future' })
+          );
         }
 
         if (options.numbers) {
