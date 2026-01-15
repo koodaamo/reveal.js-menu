@@ -775,9 +775,33 @@ const Plugin = () => {
         });
 
         if (options.markers) {
-          item.appendChild(create('i', { class: options.icons.markerPast }));
-          item.appendChild(create('i', { class: options.icons.markerActive }));
-          item.appendChild(create('i', { class: options.icons.markerFuture }));
+          // Support both Font Awesome classes and Unicode/HTML content
+          var markerPast, markerActive, markerFuture;
+          
+          if (options.icons.markerPast && options.icons.markerPast.startsWith('fa')) {
+            markerPast = create('i', { class: options.icons.markerPast });
+          } else {
+            markerPast = create('span', { class: 'slide-menu-marker past' });
+            markerPast.innerHTML = options.icons.markerPast || '✓';
+          }
+          
+          if (options.icons.markerActive && options.icons.markerActive.startsWith('fa')) {
+            markerActive = create('i', { class: options.icons.markerActive });
+          } else {
+            markerActive = create('span', { class: 'slide-menu-marker active' });
+            markerActive.innerHTML = options.icons.markerActive || '▶';
+          }
+          
+          if (options.icons.markerFuture && options.icons.markerFuture.startsWith('fa')) {
+            markerFuture = create('i', { class: options.icons.markerFuture });
+          } else {
+            markerFuture = create('span', { class: 'slide-menu-marker future' });
+            markerFuture.innerHTML = options.icons.markerFuture || '○';
+          }
+          
+          item.appendChild(markerPast);
+          item.appendChild(markerActive);
+          item.appendChild(markerFuture);
         }
 
         if (options.numbers) {
