@@ -8,50 +8,46 @@ A slideout menu plugin for [Reveal.js](https://github.com/hakimel/reveal.js) to 
 
 Download and install the package in your project:
 
-`bower install reveal.js-menu`
-
-Add the plugin to your presentation, as below.
-
-```javascript
-<script src="bower_components/reveal.js-menu/menu.js"></script>
-<script>
-  Reveal.initialize({
-    plugins: [ RevealMenu ]
-  });
-</script>
-```
-
-### npm
-
-Download and install the package in your project:
-
 `npm install --save reveal.js-menu`
 
-Add the plugin to your presentation, as below.
+Add the plugin to your presentation using ES modules (modern browsers only):
 
-```javascript
-<script src="node_modules/reveal.js-menu/menu.js"></script>
-<script>
+```html
+<script type="module">
+  import RevealMenu from './node_modules/reveal.js-menu/menu.js';
+  
   Reveal.initialize({
     plugins: [ RevealMenu ]
   });
 </script>
 ```
 
-### Manual
+### Using with a bundler
+
+```javascript
+import Reveal from 'reveal.js';
+import RevealMenu from 'reveal.js-menu';
+
+Reveal.initialize({
+  plugins: [ RevealMenu ]
+});
+```
+
+### Manual Installation
 
 Copy this repository into the plugins folder of your reveal.js presentation, ie `plugins/menu`.
 
-Add the plugin to the dependencies in your presentation, as below.
-
-```javascript
-<script src="plugin/menu/menu.js"></script>
-<script>
+```html
+<script type="module">
+  import RevealMenu from './plugin/menu/menu.js';
+  
   Reveal.initialize({
     plugins: [ RevealMenu ]
   });
 </script>
 ```
+
+**Note:** This plugin requires modern browsers with ES module support. For legacy browser support, use version 2.1.0 or earlier.
 
 ## Configuration
 
@@ -181,11 +177,19 @@ Reveal.initialize({
     // If 'true' the menu will be shown when the menu is initialised.
     openOnInit: false,
 
-    // By default the menu will load it's own font-awesome library
-    // icons. If your presentation needs to load a different
-    // font-awesome library the 'loadIcons' option can be set to false
-    // and the menu will not attempt to load the font-awesome library.
-    loadIcons: true
+    // Customize the icons used in the menu. By default, Unicode
+    // characters are used. You can override with HTML strings
+    // (e.g., '<i class="my-icon"></i>' for custom icon fonts or
+    // '<svg>...</svg>' for inline SVG).
+    icons: {
+      contents: '≡',        // Menu contents icon
+      themes: '🎨',          // Themes panel icon
+      transitions: '↔',     // Transitions panel icon
+      close: '✕',           // Close button icon
+      markerPast: '✓',      // Past slide marker
+      markerActive: '▶',    // Active slide marker
+      markerFuture: '○'     // Future slide marker
+    }
   }
 });
 ```

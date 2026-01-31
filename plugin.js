@@ -5,16 +5,6 @@
  */
 
 const Plugin = () => {
-  const ieVersion = (function () {
-    let browser = /(msie) ([\w.]+)/.exec(
-      window.navigator.userAgent.toLowerCase()
-    );
-    if (browser && browser[1] === 'msie') {
-      return parseFloat(browser[2]);
-    }
-    return null;
-  })();
-
   var deck;
   var config;
   var options;
@@ -30,8 +20,8 @@ const Plugin = () => {
       if (sel) {
         path = sel.src.slice(0, -7);
       }
-    } else if ('url' in import.meta) {
-      path = import.meta.url.slice(0, import.meta.url.lastIndexOf('/') + 1);
+    } else if ("url" in import.meta) {
+      path = import.meta.url.slice(0, import.meta.url.lastIndexOf("/") + 1);
     }
 
     return path;
@@ -39,18 +29,18 @@ const Plugin = () => {
 
   function initOptions(config) {
     options = config.menu || {};
-    options.path = options.path || scriptPath() || 'plugin/menu/';
-    if (!options.path.endsWith('/')) {
-      options.path += '/';
+    options.path = options.path || scriptPath() || "plugin/menu/";
+    if (!options.path.endsWith("/")) {
+      options.path += "/";
     }
 
     // Set defaults
-    if (options.side === undefined) options.side = 'left';
+    if (options.side === undefined) options.side = "left";
 
     if (options.numbers === undefined) options.numbers = false;
 
-    if (typeof options.titleSelector !== 'string')
-      options.titleSelector = 'h1, h2, h3, h4, h5';
+    if (typeof options.titleSelector !== "string")
+      options.titleSelector = "h1, h2, h3, h4, h5";
 
     if (options.hideMissingTitles === undefined)
       options.hideMissingTitles = false;
@@ -60,37 +50,35 @@ const Plugin = () => {
 
     if (options.markers === undefined) options.markers = true;
 
-    // Icon configuration - defaults to Font Awesome classes
-    if (typeof options.icons !== 'object') options.icons = {};
-    if (!options.icons.contents) options.icons.contents = 'fa-images';
-    if (!options.icons.contentsStyle) options.icons.contentsStyle = 'fas';
-    if (!options.icons.themes) options.icons.themes = 'fa-adjust';
-    if (!options.icons.themesStyle) options.icons.themesStyle = 'fas';
-    if (!options.icons.transitions) options.icons.transitions = 'fa-sticky-note';
-    if (!options.icons.transitionsStyle) options.icons.transitionsStyle = 'fas';
-    if (!options.icons.markerPast) options.icons.markerPast = 'fas fa-check-circle fa-fw past';
-    if (!options.icons.markerActive) options.icons.markerActive = 'fas fa-arrow-alt-circle-right fa-fw active';
-    if (!options.icons.close) options.icons.close = 'fas fa-times';
-    if (!options.icons.markerFuture) options.icons.markerFuture = 'far fa-circle fa-fw future';
+    // Icon configuration - defaults to Unicode characters
+    // Users can override with HTML strings (e.g., '<i class="custom-icon"></i>') or Unicode
+    if (typeof options.icons !== "object") options.icons = {};
+    if (!options.icons.contents) options.icons.contents = "≡";
+    if (!options.icons.themes) options.icons.themes = "🎨";
+    if (!options.icons.transitions) options.icons.transitions = "↔";
+    if (!options.icons.close) options.icons.close = "✕";
+    if (!options.icons.markerPast) options.icons.markerPast = "✓";
+    if (!options.icons.markerActive) options.icons.markerActive = "▶";
+    if (!options.icons.markerFuture) options.icons.markerFuture = "○";
 
-    if (typeof options.themesPath !== 'string')
-      options.themesPath = 'dist/theme/';
-    if (!options.themesPath.endsWith('/')) options.themesPath += '/';
+    if (typeof options.themesPath !== "string")
+      options.themesPath = "dist/theme/";
+    if (!options.themesPath.endsWith("/")) options.themesPath += "/";
 
-    if (!select('link#theme')) options.themes = false;
+    if (!select("link#theme")) options.themes = false;
     if (options.themes === true) {
       options.themes = [
-        { name: 'Black', theme: options.themesPath + 'black.css' },
-        { name: 'White', theme: options.themesPath + 'white.css' },
-        { name: 'League', theme: options.themesPath + 'league.css' },
-        { name: 'Sky', theme: options.themesPath + 'sky.css' },
-        { name: 'Beige', theme: options.themesPath + 'beige.css' },
-        { name: 'Simple', theme: options.themesPath + 'simple.css' },
-        { name: 'Serif', theme: options.themesPath + 'serif.css' },
-        { name: 'Blood', theme: options.themesPath + 'blood.css' },
-        { name: 'Night', theme: options.themesPath + 'night.css' },
-        { name: 'Moon', theme: options.themesPath + 'moon.css' },
-        { name: 'Solarized', theme: options.themesPath + 'solarized.css' }
+        { name: "Black", theme: options.themesPath + "black.css" },
+        { name: "White", theme: options.themesPath + "white.css" },
+        { name: "League", theme: options.themesPath + "league.css" },
+        { name: "Sky", theme: options.themesPath + "sky.css" },
+        { name: "Beige", theme: options.themesPath + "beige.css" },
+        { name: "Simple", theme: options.themesPath + "simple.css" },
+        { name: "Serif", theme: options.themesPath + "serif.css" },
+        { name: "Blood", theme: options.themesPath + "blood.css" },
+        { name: "Night", theme: options.themesPath + "night.css" },
+        { name: "Moon", theme: options.themesPath + "moon.css" },
+        { name: "Solarized", theme: options.themesPath + "solarized.css" },
       ];
     } else if (!Array.isArray(options.themes)) {
       options.themes = false;
@@ -99,44 +87,40 @@ const Plugin = () => {
     if (options.transitions === undefined) options.transitions = false;
     if (options.transitions === true) {
       options.transitions = [
-        'None',
-        'Fade',
-        'Slide',
-        'Convex',
-        'Concave',
-        'Zoom'
+        "None",
+        "Fade",
+        "Slide",
+        "Convex",
+        "Concave",
+        "Zoom",
       ];
     } else if (
       options.transitions !== false &&
       (!Array.isArray(options.transitions) ||
         !options.transitions.every(function (e) {
-          return typeof e === 'string';
+          return typeof e === "string";
         }))
     ) {
       console.error(
-        "reveal.js-menu error: transitions config value must be 'true' or an array of strings, eg ['None', 'Fade', 'Slide')"
+        "reveal.js-menu error: transitions config value must be 'true' or an array of strings, eg ['None', 'Fade', 'Slide')",
       );
       options.transitions = false;
     }
-    if (ieVersion && ieVersion <= 9) {
-      // transitions aren't support in IE9 anyway, so no point in showing them
-      options.transitions = false;
-    }
 
-    if (typeof options.openButton === 'undefined') options.openButton = true;
+    if (typeof options.openButton === "undefined") options.openButton = true;
 
-    if (typeof options.openSlideNumber === 'undefined')
+    if (typeof options.openSlideNumber === "undefined")
       options.openSlideNumber = false;
 
-    if (typeof options.keyboard === 'undefined') options.keyboard = true;
+    if (typeof options.keyboard === "undefined") options.keyboard = true;
 
-    if (typeof options.sticky === 'undefined') options.sticky = false;
+    if (typeof options.sticky === "undefined") options.sticky = false;
 
-    if (typeof options.autoOpen === 'undefined') options.autoOpen = true;
+    if (typeof options.autoOpen === "undefined") options.autoOpen = true;
 
-    if (typeof options.delayInit === 'undefined') options.delayInit = false;
+    if (typeof options.delayInit === "undefined") options.delayInit = false;
 
-    if (typeof options.openOnInit === 'undefined') options.openOnInit = false;
+    if (typeof options.openOnInit === "undefined") options.openOnInit = false;
   }
 
   var mouseSelectionEnabled = true;
@@ -147,8 +131,8 @@ const Plugin = () => {
   function reenableMouseSelection() {
     // wait until the mouse has moved before re-enabling mouse selection
     // to avoid selections on scroll
-    select('nav.slide-menu').addEventListener('mousemove', function fn(e) {
-      select('nav.slide-menu').removeEventListener('mousemove', fn);
+    select("nav.slide-menu").addEventListener("mousemove", function fn(e) {
+      select("nav.slide-menu").removeEventListener("mousemove", fn);
       //XXX this should select the item under the mouse
       mouseSelectionEnabled = true;
     });
@@ -201,7 +185,7 @@ const Plugin = () => {
   }
 
   function selectItem(el) {
-    el.classList.add('selected');
+    el.classList.add("selected");
     keepVisible(el);
     if (options.sticky && options.autoOpen) openItem(el);
   }
@@ -228,24 +212,24 @@ const Plugin = () => {
         case 75:
         case 38:
           var currItem =
-            select('.active-menu-panel .slide-menu-items li.selected') ||
-            select('.active-menu-panel .slide-menu-items li.active');
+            select(".active-menu-panel .slide-menu-items li.selected") ||
+            select(".active-menu-panel .slide-menu-items li.active");
           if (currItem) {
-            selectAll('.active-menu-panel .slide-menu-items li').forEach(
+            selectAll(".active-menu-panel .slide-menu-items li").forEach(
               function (item) {
-                item.classList.remove('selected');
-              }
+                item.classList.remove("selected");
+              },
             );
             var nextItem =
               select(
                 '.active-menu-panel .slide-menu-items li[data-item="' +
-                  (parseInt(currItem.getAttribute('data-item')) - 1) +
-                  '"]'
+                  (parseInt(currItem.getAttribute("data-item")) - 1) +
+                  '"]',
               ) || currItem;
             selectItem(nextItem);
           } else {
             var item = select(
-              '.active-menu-panel .slide-menu-items li.slide-menu-item'
+              ".active-menu-panel .slide-menu-items li.slide-menu-item",
             );
             if (item) selectItem(item);
           }
@@ -254,24 +238,24 @@ const Plugin = () => {
         case 74:
         case 40:
           var currItem =
-            select('.active-menu-panel .slide-menu-items li.selected') ||
-            select('.active-menu-panel .slide-menu-items li.active');
+            select(".active-menu-panel .slide-menu-items li.selected") ||
+            select(".active-menu-panel .slide-menu-items li.active");
           if (currItem) {
-            selectAll('.active-menu-panel .slide-menu-items li').forEach(
+            selectAll(".active-menu-panel .slide-menu-items li").forEach(
               function (item) {
-                item.classList.remove('selected');
-              }
+                item.classList.remove("selected");
+              },
             );
             var nextItem =
               select(
                 '.active-menu-panel .slide-menu-items li[data-item="' +
-                  (parseInt(currItem.getAttribute('data-item')) + 1) +
-                  '"]'
+                  (parseInt(currItem.getAttribute("data-item")) + 1) +
+                  '"]',
               ) || currItem;
             selectItem(nextItem);
           } else {
             var item = select(
-              '.active-menu-panel .slide-menu-items li.slide-menu-item'
+              ".active-menu-panel .slide-menu-items li.slide-menu-item",
             );
             if (item) selectItem(item);
           }
@@ -280,12 +264,12 @@ const Plugin = () => {
         case 33:
         case 85:
           var itemsAbove = selectAll(
-            '.active-menu-panel .slide-menu-items li'
+            ".active-menu-panel .slide-menu-items li",
           ).filter(function (item) {
             return visibleOffset(item) > 0;
           });
           var visibleItems = selectAll(
-            '.active-menu-panel .slide-menu-items li'
+            ".active-menu-panel .slide-menu-items li",
           ).filter(function (item) {
             return visibleOffset(item) == 0;
           });
@@ -298,14 +282,14 @@ const Plugin = () => {
               : visibleItems[0];
           if (firstVisible) {
             if (
-              firstVisible.classList.contains('selected') &&
+              firstVisible.classList.contains("selected") &&
               itemsAbove.length > 0
             ) {
               // at top of viewport already, page scroll (if not at start)
               // ...move selected item to bottom, and change selection to last fully visible item at top
               scrollItemToBottom(firstVisible);
               visibleItems = selectAll(
-                '.active-menu-panel .slide-menu-items li'
+                ".active-menu-panel .slide-menu-items li",
               ).filter(function (item) {
                 return visibleOffset(item) == 0;
               });
@@ -316,10 +300,10 @@ const Plugin = () => {
                 firstVisible = visibleItems[0];
               }
             }
-            selectAll('.active-menu-panel .slide-menu-items li').forEach(
+            selectAll(".active-menu-panel .slide-menu-items li").forEach(
               function (item) {
-                item.classList.remove('selected');
-              }
+                item.classList.remove("selected");
+              },
             );
             selectItem(firstVisible);
             // ensure selected item is positioned at the top of the viewport
@@ -330,12 +314,12 @@ const Plugin = () => {
         case 34:
         case 68:
           var visibleItems = selectAll(
-            '.active-menu-panel .slide-menu-items li'
+            ".active-menu-panel .slide-menu-items li",
           ).filter(function (item) {
             return visibleOffset(item) == 0;
           });
           var itemsBelow = selectAll(
-            '.active-menu-panel .slide-menu-items li'
+            ".active-menu-panel .slide-menu-items li",
           ).filter(function (item) {
             return visibleOffset(item) < 0;
           });
@@ -347,14 +331,14 @@ const Plugin = () => {
               : visibleItems[visibleItems.length - 1];
           if (lastVisible) {
             if (
-              lastVisible.classList.contains('selected') &&
+              lastVisible.classList.contains("selected") &&
               itemsBelow.length > 0
             ) {
               // at bottom of viewport already, page scroll (if not at end)
               // ...move selected item to top, and change selection to last fully visible item at bottom
               scrollItemToTop(lastVisible);
               visibleItems = selectAll(
-                '.active-menu-panel .slide-menu-items li'
+                ".active-menu-panel .slide-menu-items li",
               ).filter(function (item) {
                 return visibleOffset(item) == 0;
               });
@@ -365,10 +349,10 @@ const Plugin = () => {
                 lastVisible = visibleItems[visibleItems.length - 1];
               }
             }
-            selectAll('.active-menu-panel .slide-menu-items li').forEach(
+            selectAll(".active-menu-panel .slide-menu-items li").forEach(
               function (item) {
-                item.classList.remove('selected');
-              }
+                item.classList.remove("selected");
+              },
             );
             selectItem(lastVisible);
             // ensure selected item is positioned at the bottom of the viewport
@@ -377,31 +361,31 @@ const Plugin = () => {
           break;
         // home
         case 36:
-          selectAll('.active-menu-panel .slide-menu-items li').forEach(
+          selectAll(".active-menu-panel .slide-menu-items li").forEach(
             function (item) {
-              item.classList.remove('selected');
-            }
+              item.classList.remove("selected");
+            },
           );
           var item = select(
-            '.active-menu-panel .slide-menu-items li:first-of-type'
+            ".active-menu-panel .slide-menu-items li:first-of-type",
           );
           if (item) {
-            item.classList.add('selected');
+            item.classList.add("selected");
             keepVisible(item);
           }
           break;
         // end
         case 35:
-          selectAll('.active-menu-panel .slide-menu-items li').forEach(
+          selectAll(".active-menu-panel .slide-menu-items li").forEach(
             function (item) {
-              item.classList.remove('selected');
-            }
+              item.classList.remove("selected");
+            },
           );
           var item = select(
-            '.active-menu-panel .slide-menu-items:last-of-type li:last-of-type'
+            ".active-menu-panel .slide-menu-items:last-of-type li:last-of-type",
           );
           if (item) {
-            item.classList.add('selected');
+            item.classList.add("selected");
             keepVisible(item);
           }
           break;
@@ -409,7 +393,7 @@ const Plugin = () => {
         case 32:
         case 13:
           var currItem = select(
-            '.active-menu-panel .slide-menu-items li.selected'
+            ".active-menu-panel .slide-menu-items li.selected",
           );
           if (currItem) {
             openItem(currItem, true);
@@ -430,41 +414,41 @@ const Plugin = () => {
   function openMenu(event) {
     if (event) event.preventDefault();
     if (!isOpen()) {
-      select('body').classList.add('slide-menu-active');
-      select('.reveal').classList.add(
-        'has-' + options.effect + '-' + options.side
+      select("body").classList.add("slide-menu-active");
+      select(".reveal").classList.add(
+        "has-" + options.effect + "-" + options.side,
       );
-      select('.slide-menu').classList.add('active');
-      select('.slide-menu-overlay').classList.add('active');
+      select(".slide-menu").classList.add("active");
+      select(".slide-menu-overlay").classList.add("active");
 
       // identify active theme
       if (options.themes) {
         selectAll('div[data-panel="Themes"] li').forEach(function (i) {
-          i.classList.remove('active');
+          i.classList.remove("active");
         });
         selectAll(
-          'li[data-theme="' + select('link#theme').getAttribute('href') + '"]'
+          'li[data-theme="' + select("link#theme").getAttribute("href") + '"]',
         ).forEach(function (i) {
-          i.classList.add('active');
+          i.classList.add("active");
         });
       }
 
       // identify active transition
       if (options.transitions) {
         selectAll('div[data-panel="Transitions"] li').forEach(function (i) {
-          i.classList.remove('active');
+          i.classList.remove("active");
         });
         selectAll('li[data-transition="' + config.transition + '"]').forEach(
           function (i) {
-            i.classList.add('active');
-          }
+            i.classList.add("active");
+          },
         );
       }
 
       // set item selections to match active items
-      var items = selectAll('.slide-menu-panel li.active');
+      var items = selectAll(".slide-menu-panel li.active");
       items.forEach(function (i) {
-        i.classList.add('selected');
+        i.classList.add("selected");
         keepVisible(i);
       });
     }
@@ -473,14 +457,14 @@ const Plugin = () => {
   function closeMenu(event, force) {
     if (event) event.preventDefault();
     if (!options.sticky || force) {
-      select('body').classList.remove('slide-menu-active');
-      select('.reveal').classList.remove(
-        'has-' + options.effect + '-' + options.side
+      select("body").classList.remove("slide-menu-active");
+      select(".reveal").classList.remove(
+        "has-" + options.effect + "-" + options.side,
       );
-      select('.slide-menu').classList.remove('active');
-      select('.slide-menu-overlay').classList.remove('active');
-      selectAll('.slide-menu-panel li.selected').forEach(function (i) {
-        i.classList.remove('selected');
+      select(".slide-menu").classList.remove("active");
+      select(".slide-menu-overlay").classList.remove("active");
+      selectAll(".slide-menu-panel li.selected").forEach(function (i) {
+        i.classList.remove("selected");
       });
     }
   }
@@ -494,45 +478,45 @@ const Plugin = () => {
   }
 
   function isOpen() {
-    return select('body').classList.contains('slide-menu-active');
+    return select("body").classList.contains("slide-menu-active");
   }
 
   function openPanel(event, ref) {
     openMenu(event);
     var panel = ref;
-    if (typeof ref !== 'string') {
-      panel = event.currentTarget.getAttribute('data-panel');
+    if (typeof ref !== "string") {
+      panel = event.currentTarget.getAttribute("data-panel");
     }
-    select('.slide-menu-toolbar > li.active-toolbar-button').classList.remove(
-      'active-toolbar-button'
+    select(".slide-menu-toolbar > li.active-toolbar-button").classList.remove(
+      "active-toolbar-button",
     );
     select('li[data-panel="' + panel + '"]').classList.add(
-      'active-toolbar-button'
+      "active-toolbar-button",
     );
-    select('.slide-menu-panel.active-menu-panel').classList.remove(
-      'active-menu-panel'
+    select(".slide-menu-panel.active-menu-panel").classList.remove(
+      "active-menu-panel",
     );
     select('div[data-panel="' + panel + '"]').classList.add(
-      'active-menu-panel'
+      "active-menu-panel",
     );
   }
 
   function nextPanel() {
     var next =
-      (parseInt(select('.active-toolbar-button').getAttribute('data-button')) +
+      (parseInt(select(".active-toolbar-button").getAttribute("data-button")) +
         1) %
       buttons;
     openPanel(
       null,
       select('.toolbar-panel-button[data-button="' + next + '"]').getAttribute(
-        'data-panel'
-      )
+        "data-panel",
+      ),
     );
   }
 
   function prevPanel() {
     var next =
-      parseInt(select('.active-toolbar-button').getAttribute('data-button')) -
+      parseInt(select(".active-toolbar-button").getAttribute("data-button")) -
       1;
     if (next < 0) {
       next = buttons - 1;
@@ -540,42 +524,42 @@ const Plugin = () => {
     openPanel(
       null,
       select('.toolbar-panel-button[data-button="' + next + '"]').getAttribute(
-        'data-panel'
-      )
+        "data-panel",
+      ),
     );
   }
 
   function openItem(item, force) {
-    var h = parseInt(item.getAttribute('data-slide-h'));
-    var v = parseInt(item.getAttribute('data-slide-v'));
-    var theme = item.getAttribute('data-theme');
-    var highlightTheme = item.getAttribute('data-highlight-theme');
-    var transition = item.getAttribute('data-transition');
+    var h = parseInt(item.getAttribute("data-slide-h"));
+    var v = parseInt(item.getAttribute("data-slide-v"));
+    var theme = item.getAttribute("data-theme");
+    var highlightTheme = item.getAttribute("data-highlight-theme");
+    var transition = item.getAttribute("data-transition");
 
     if (!isNaN(h) && !isNaN(v)) {
       deck.slide(h, v);
     }
 
     if (theme) {
-      changeStylesheet('theme', theme);
+      changeStylesheet("theme", theme);
     }
 
     if (highlightTheme) {
-      changeStylesheet('highlight-theme', highlightTheme);
+      changeStylesheet("highlight-theme", highlightTheme);
     }
 
     if (transition) {
       deck.configure({ transition: transition });
     }
 
-    var link = select('a', item);
+    var link = select("a", item);
     if (link) {
       if (
         force ||
         !options.sticky ||
-        (options.autoOpen && link.href.startsWith('#')) ||
+        (options.autoOpen && link.href.startsWith("#")) ||
         link.href.startsWith(
-          window.location.origin + window.location.pathname + '#'
+          window.location.origin + window.location.pathname + "#",
         )
       ) {
         link.click();
@@ -586,7 +570,7 @@ const Plugin = () => {
   }
 
   function clicked(event) {
-    if (event.target.nodeName !== 'A') {
+    if (event.target.nodeName !== "A") {
       event.preventDefault();
     }
     openItem(event.currentTarget);
@@ -594,28 +578,28 @@ const Plugin = () => {
 
   function highlightCurrentSlide() {
     var state = deck.getState();
-    selectAll('li.slide-menu-item, li.slide-menu-item-vertical').forEach(
+    selectAll("li.slide-menu-item, li.slide-menu-item-vertical").forEach(
       function (item) {
-        item.classList.remove('past');
-        item.classList.remove('active');
-        item.classList.remove('future');
+        item.classList.remove("past");
+        item.classList.remove("active");
+        item.classList.remove("future");
 
-        var h = parseInt(item.getAttribute('data-slide-h'));
-        var v = parseInt(item.getAttribute('data-slide-v'));
+        var h = parseInt(item.getAttribute("data-slide-h"));
+        var v = parseInt(item.getAttribute("data-slide-v"));
         if (h < state.indexh || (h === state.indexh && v < state.indexv)) {
-          item.classList.add('past');
+          item.classList.add("past");
         } else if (h === state.indexh && v === state.indexv) {
-          item.classList.add('active');
+          item.classList.add("active");
         } else {
-          item.classList.add('future');
+          item.classList.add("future");
         }
-      }
+      },
     );
   }
 
   function matchRevealStyle() {
-    var revealStyle = window.getComputedStyle(select('.reveal'));
-    var element = select('.slide-menu');
+    var revealStyle = window.getComputedStyle(select(".reveal"));
+    var element = select(".slide-menu");
     element.style.fontFamily = revealStyle.fontFamily;
     //XXX could adjust the complete menu style to match the theme, ie colors, etc
   }
@@ -623,99 +607,98 @@ const Plugin = () => {
   var buttons = 0;
   function initMenu() {
     if (!initialised) {
-      var parent = select('.reveal').parentElement;
-      var top = create('div', { class: 'slide-menu-wrapper' });
+      var parent = select(".reveal").parentElement;
+      var top = create("div", { class: "slide-menu-wrapper" });
       parent.appendChild(top);
-      var panels = create('nav', {
-        class: 'slide-menu slide-menu--' + options.side
+      var panels = create("nav", {
+        class: "slide-menu slide-menu--" + options.side,
       });
-      if (typeof options.width === 'string') {
+      if (typeof options.width === "string") {
         if (
-          ['normal', 'wide', 'third', 'half', 'full'].indexOf(options.width) !=
+          ["normal", "wide", "third", "half", "full"].indexOf(options.width) !=
           -1
         ) {
-          panels.classList.add('slide-menu--' + options.width);
+          panels.classList.add("slide-menu--" + options.width);
         } else {
-          panels.classList.add('slide-menu--custom');
+          panels.classList.add("slide-menu--custom");
           panels.style.width = options.width;
         }
       }
       top.appendChild(panels);
       matchRevealStyle();
-      var overlay = create('div', { class: 'slide-menu-overlay' });
+      var overlay = create("div", { class: "slide-menu-overlay" });
       top.appendChild(overlay);
       overlay.onclick = function () {
         closeMenu(null, true);
       };
 
-      var toolbar = create('ol', { class: 'slide-menu-toolbar' });
-      select('.slide-menu').appendChild(toolbar);
+      var toolbar = create("ol", { class: "slide-menu-toolbar" });
+      select(".slide-menu").appendChild(toolbar);
 
-      function addToolbarButton(title, ref, icon, style, fn, active) {
+      function addToolbarButton(title, ref, icon, fn, active) {
         var attrs = {
-          'data-button': '' + buttons++,
+          "data-button": "" + buttons++,
           class:
-            'toolbar-panel-button' + (active ? ' active-toolbar-button' : '')
+            "toolbar-panel-button" + (active ? " active-toolbar-button" : ""),
         };
         if (ref) {
-          attrs['data-panel'] = ref;
+          attrs["data-panel"] = ref;
         }
-        var button = create('li', attrs);
+        var button = create("li", attrs);
 
-        if (icon.startsWith('fa-')) {
-          button.appendChild(create('i', { class: style + ' ' + icon }));
-        } else {
-          button.innerHTML = icon + '</i>';
-        }
-        button.appendChild(create('br'), select('i', button));
+        // Support both HTML strings and plain text/Unicode
+        var iconSpan = create("span", { class: "slide-menu-icon" });
+        iconSpan.innerHTML = icon;
+        button.appendChild(iconSpan);
+        button.appendChild(create("br"));
         button.appendChild(
-          create('span', { class: 'slide-menu-toolbar-label' }, title),
-          select('i', button)
+          create("span", { class: "slide-menu-toolbar-label" }, title),
         );
         button.onclick = fn;
         toolbar.appendChild(button);
         return button;
       }
 
-      addToolbarButton('Contents', 'Slides', options.icons.contents, options.icons.contentsStyle, openPanel, true);
+      addToolbarButton(
+        "Contents",
+        "Slides",
+        options.icons.contents,
+        openPanel,
+        true,
+      );
 
       if (options.custom) {
         options.custom.forEach(function (element, index, array) {
           addToolbarButton(
             element.title,
-            'Custom' + index,
+            "Custom" + index,
             element.icon,
-            null,
-            openPanel
+            openPanel,
           );
         });
       }
 
       if (options.themes) {
-        addToolbarButton('Themes', 'Themes', options.icons.themes, options.icons.themesStyle, openPanel);
+        addToolbarButton("Themes", "Themes", options.icons.themes, openPanel);
       }
       if (options.transitions) {
         addToolbarButton(
-          'Transitions',
-          'Transitions',
+          "Transitions",
+          "Transitions",
           options.icons.transitions,
-          options.icons.transitionsStyle,
-          openPanel
+          openPanel,
         );
       }
-      var button = create('li', {
-        id: 'close',
-        class: 'toolbar-panel-button'
+      var button = create("li", {
+        id: "close",
+        class: "toolbar-panel-button",
       });
-      if (options.icons.close && options.icons.close.startsWith('fa-')) {
-        button.appendChild(create('i', { class: options.icons.close }));
-        button.appendChild(create('br'));
-      } else {
-        button.innerHTML = (options.icons.close || '✕');
-        button.appendChild(create('br'));
-      }
+      var closeIcon = create("span", { class: "slide-menu-icon" });
+      closeIcon.innerHTML = options.icons.close || "✕";
+      button.appendChild(closeIcon);
+      button.appendChild(create("br"));
       button.appendChild(
-        create('span', { class: 'slide-menu-toolbar-label' }, 'Close')
+        create("span", { class: "slide-menu-toolbar-label" }, "Close"),
       );
       button.onclick = function () {
         closeMenu(null, true);
@@ -726,18 +709,18 @@ const Plugin = () => {
       // Slide links
       //
       function generateItem(type, section, i, h, v) {
-        var link = '/#/' + h;
-        if (typeof v === 'number' && !isNaN(v)) link += '/' + v;
+        var link = "/#/" + h;
+        if (typeof v === "number" && !isNaN(v)) link += "/" + v;
 
         function text(selector, parent) {
-          if (selector === '') return null;
+          if (selector === "") return null;
           var el = parent ? select(selector, section) : select(selector);
           if (el) return el.textContent;
           return null;
         }
         var title =
-          section.getAttribute('data-menu-title') ||
-          text('.menu-title', section) ||
+          section.getAttribute("data-menu-title") ||
+          text(".menu-title", section) ||
           text(options.titleSelector, section);
 
         if (!title && options.useTextContentForMissingTitles) {
@@ -746,59 +729,48 @@ const Plugin = () => {
           if (title) {
             title =
               title
-                .split('\n')
+                .split("\n")
                 .map(function (t) {
                   return t.trim();
                 })
-                .join(' ')
+                .join(" ")
                 .trim()
-                .replace(/^(.{16}[^\s]*).*/, '$1') // limit to 16 chars plus any consecutive non-whitespace chars (to avoid breaking words)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;') + '...';
+                .replace(/^(.{16}[^\s]*).*/, "$1") // limit to 16 chars plus any consecutive non-whitespace chars (to avoid breaking words)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;") + "...";
           }
         }
 
         if (!title) {
-          if (options.hideMissingTitles) return '';
-          type += ' no-title';
-          title = 'Slide ' + (i + 1);
+          if (options.hideMissingTitles) return "";
+          type += " no-title";
+          title = "Slide " + (i + 1);
         }
 
-        var item = create('li', {
+        var item = create("li", {
           class: type,
-          'data-item': i,
-          'data-slide-h': h,
-          'data-slide-v': v === undefined ? 0 : v
+          "data-item": i,
+          "data-slide-h": h,
+          "data-slide-v": v === undefined ? 0 : v,
         });
 
         if (options.markers) {
-          // Support both Font Awesome classes and Unicode/HTML content
-          var markerPast, markerActive, markerFuture;
-          
-          if (options.icons.markerPast && options.icons.markerPast.startsWith('fa')) {
-            markerPast = create('i', { class: options.icons.markerPast });
-          } else {
-            markerPast = create('span', { class: 'slide-menu-marker past' });
-            markerPast.innerHTML = options.icons.markerPast || '✓';
-          }
-          
-          if (options.icons.markerActive && options.icons.markerActive.startsWith('fa')) {
-            markerActive = create('i', { class: options.icons.markerActive });
-          } else {
-            markerActive = create('span', { class: 'slide-menu-marker active' });
-            markerActive.innerHTML = options.icons.markerActive || '▶';
-          }
-          
-          if (options.icons.markerFuture && options.icons.markerFuture.startsWith('fa')) {
-            markerFuture = create('i', { class: options.icons.markerFuture });
-          } else {
-            markerFuture = create('span', { class: 'slide-menu-marker future' });
-            markerFuture.innerHTML = options.icons.markerFuture || '○';
-          }
-          
+          var markerPast = create("span", { class: "slide-menu-marker past" });
+          markerPast.innerHTML = options.icons.markerPast || "✓";
+
+          var markerActive = create("span", {
+            class: "slide-menu-marker active",
+          });
+          markerActive.innerHTML = options.icons.markerActive || "▶";
+
+          var markerFuture = create("span", {
+            class: "slide-menu-marker future",
+          });
+          markerFuture.innerHTML = options.icons.markerFuture || "○";
+
           item.appendChild(markerPast);
           item.appendChild(markerActive);
           item.appendChild(markerFuture);
@@ -807,43 +779,43 @@ const Plugin = () => {
         if (options.numbers) {
           // Number formatting taken from reveal.js
           var value = [];
-          var format = 'h.v';
+          var format = "h.v";
 
           // Check if a custom number format is available
-          if (typeof options.numbers === 'string') {
+          if (typeof options.numbers === "string") {
             format = options.numbers;
-          } else if (typeof config.slideNumber === 'string') {
+          } else if (typeof config.slideNumber === "string") {
             // Take user defined number format for slides
             format = config.slideNumber;
           }
 
           switch (format) {
-            case 'c':
+            case "c":
               value.push(i + 1);
               break;
-            case 'c/t':
-              value.push(i + 1, '/', deck.getTotalSlides());
+            case "c/t":
+              value.push(i + 1, "/", deck.getTotalSlides());
               break;
-            case 'h/v':
+            case "h/v":
               value.push(h + 1);
-              if (typeof v === 'number' && !isNaN(v)) value.push('/', v + 1);
+              if (typeof v === "number" && !isNaN(v)) value.push("/", v + 1);
               break;
             default:
               value.push(h + 1);
-              if (typeof v === 'number' && !isNaN(v)) value.push('.', v + 1);
+              if (typeof v === "number" && !isNaN(v)) value.push(".", v + 1);
           }
 
           item.appendChild(
             create(
-              'span',
-              { class: 'slide-menu-item-number' },
-              value.join('') + '. '
-            )
+              "span",
+              { class: "slide-menu-item-number" },
+              value.join("") + ". ",
+            ),
           );
         }
 
         item.appendChild(
-          create('span', { class: 'slide-menu-item-title' }, title)
+          create("span", { class: "slide-menu-item-title" }, title),
         );
 
         return item;
@@ -852,25 +824,25 @@ const Plugin = () => {
       function createSlideMenu() {
         if (
           !document.querySelector(
-            'section[data-markdown]:not([data-markdown-parsed])'
+            "section[data-markdown]:not([data-markdown-parsed])",
           )
         ) {
-          var panel = create('div', {
-            'data-panel': 'Slides',
-            class: 'slide-menu-panel active-menu-panel'
+          var panel = create("div", {
+            "data-panel": "Slides",
+            class: "slide-menu-panel active-menu-panel",
           });
-          panel.appendChild(create('ul', { class: 'slide-menu-items' }));
+          panel.appendChild(create("ul", { class: "slide-menu-items" }));
           panels.appendChild(panel);
           var items = select(
-            '.slide-menu-panel[data-panel="Slides"] > .slide-menu-items'
+            '.slide-menu-panel[data-panel="Slides"] > .slide-menu-items',
           );
           var slideCount = 0;
-          selectAll('.slides > section').forEach(function (section, h) {
-            var subsections = selectAll('section', section);
+          selectAll(".slides > section").forEach(function (section, h) {
+            var subsections = selectAll("section", section);
             if (subsections.length > 0) {
               subsections.forEach(function (subsection, v) {
                 var type =
-                  v === 0 ? 'slide-menu-item' : 'slide-menu-item-vertical';
+                  v === 0 ? "slide-menu-item" : "slide-menu-item-vertical";
                 var item = generateItem(type, subsection, slideCount, h, v);
                 if (item) {
                   items.appendChild(item);
@@ -879,10 +851,10 @@ const Plugin = () => {
               });
             } else {
               var item = generateItem(
-                'slide-menu-item',
+                "slide-menu-item",
                 section,
                 slideCount,
-                h
+                h,
               );
               if (item) {
                 items.appendChild(item);
@@ -890,10 +862,10 @@ const Plugin = () => {
               slideCount++;
             }
           });
-          selectAll('.slide-menu-item, .slide-menu-item-vertical').forEach(
+          selectAll(".slide-menu-item, .slide-menu-item-vertical").forEach(
             function (i) {
               i.onclick = clicked;
-            }
+            },
           );
           highlightCurrentSlide();
         } else {
@@ -903,7 +875,7 @@ const Plugin = () => {
       }
 
       createSlideMenu();
-      deck.addEventListener('slidechanged', highlightCurrentSlide);
+      deck.addEventListener("slidechanged", highlightCurrentSlide);
 
       //
       // Custom menu panels
@@ -923,39 +895,39 @@ const Plugin = () => {
         function loadCustomPanelContent(panel, sURL) {
           var oReq = new XMLHttpRequest();
           oReq.panel = panel;
-          oReq.arguments = Array.prototype.slice.call(arguments, 2);
+          oReq.arguments = Array.from(arguments).slice(2);
           oReq.onload = xhrSuccess;
           oReq.onerror = xhrError;
-          oReq.open('get', sURL, true);
+          oReq.open("get", sURL, true);
           oReq.send(null);
         }
         function enableCustomLinks(panel) {
-          selectAll('ul.slide-menu-items li.slide-menu-item', panel).forEach(
+          selectAll("ul.slide-menu-items li.slide-menu-item", panel).forEach(
             function (item, i) {
-              item.setAttribute('data-item', i + 1);
+              item.setAttribute("data-item", i + 1);
               item.onclick = clicked;
-              item.addEventListener('mouseenter', handleMouseHighlight);
-            }
+              item.addEventListener("mouseenter", handleMouseHighlight);
+            },
           );
         }
 
         function showErrorMsg(response) {
           var msg =
-            '<p>ERROR: The attempt to fetch ' +
+            "<p>ERROR: The attempt to fetch " +
             response.responseURL +
-            ' failed with HTTP status ' +
+            " failed with HTTP status " +
             response.status +
-            ' (' +
+            " (" +
             response.statusText +
-            ').</p>' +
-            '<p>Remember that you need to serve the presentation HTML from a HTTP server.</p>';
+            ").</p>" +
+            "<p>Remember that you need to serve the presentation HTML from a HTTP server.</p>";
           response.panel.innerHTML = msg;
         }
 
         options.custom.forEach(function (element, index, array) {
-          var panel = create('div', {
-            'data-panel': 'Custom' + index,
-            class: 'slide-menu-panel slide-menu-custom-panel'
+          var panel = create("div", {
+            "data-panel": "Custom" + index,
+            class: "slide-menu-panel slide-menu-custom-panel",
           });
           if (element.content) {
             panel.innerHTML = element.content;
@@ -971,25 +943,25 @@ const Plugin = () => {
       // Themes
       //
       if (options.themes) {
-        var panel = create('div', {
-          class: 'slide-menu-panel',
-          'data-panel': 'Themes'
+        var panel = create("div", {
+          class: "slide-menu-panel",
+          "data-panel": "Themes",
         });
         panels.appendChild(panel);
-        var menu = create('ul', { class: 'slide-menu-items' });
+        var menu = create("ul", { class: "slide-menu-items" });
         panel.appendChild(menu);
         options.themes.forEach(function (t, i) {
           var attrs = {
-            class: 'slide-menu-item',
-            'data-item': '' + (i + 1)
+            class: "slide-menu-item",
+            "data-item": "" + (i + 1),
           };
           if (t.theme) {
-            attrs['data-theme'] = t.theme;
+            attrs["data-theme"] = t.theme;
           }
           if (t.highlightTheme) {
-            attrs['data-highlight-theme'] = t.highlightTheme;
+            attrs["data-highlight-theme"] = t.highlightTheme;
           }
-          var item = create('li', attrs, t.name);
+          var item = create("li", attrs, t.name);
           menu.appendChild(item);
           item.onclick = clicked;
         });
@@ -999,22 +971,22 @@ const Plugin = () => {
       // Transitions
       //
       if (options.transitions) {
-        var panel = create('div', {
-          class: 'slide-menu-panel',
-          'data-panel': 'Transitions'
+        var panel = create("div", {
+          class: "slide-menu-panel",
+          "data-panel": "Transitions",
         });
         panels.appendChild(panel);
-        var menu = create('ul', { class: 'slide-menu-items' });
+        var menu = create("ul", { class: "slide-menu-items" });
         panel.appendChild(menu);
         options.transitions.forEach(function (name, i) {
           var item = create(
-            'li',
+            "li",
             {
-              class: 'slide-menu-item',
-              'data-transition': name.toLowerCase(),
-              'data-item': '' + (i + 1)
+              class: "slide-menu-item",
+              "data-transition": name.toLowerCase(),
+              "data-item": "" + (i + 1),
             },
-            name
+            name,
           );
           menu.appendChild(item);
           item.onclick = clicked;
@@ -1026,36 +998,38 @@ const Plugin = () => {
       //
       if (options.openButton) {
         // add menu button
-        var div = create('div', { class: 'slide-menu-button' });
-        var link = create('a', { href: '#' });
-        link.appendChild(create('i', { class: 'fas fa-bars' }));
+        var div = create("div", { class: "slide-menu-button" });
+        var link = create("a", { href: "#" });
+        var icon = create("span", { class: "slide-menu-icon" });
+        icon.innerHTML = "☰";
+        link.appendChild(icon);
         div.appendChild(link);
-        select('.reveal').appendChild(div);
+        select(".reveal").appendChild(div);
         div.onclick = openMenu;
       }
 
       if (options.openSlideNumber) {
-        var slideNumber = select('div.slide-number');
+        var slideNumber = select("div.slide-number");
         slideNumber.onclick = openMenu;
       }
 
       //
       // Handle mouse overs
       //
-      selectAll('.slide-menu-panel .slide-menu-items li').forEach(function (
-        item
-      ) {
-        item.addEventListener('mouseenter', handleMouseHighlight);
-      });
+      selectAll(".slide-menu-panel .slide-menu-items li").forEach(
+        function (item) {
+          item.addEventListener("mouseenter", handleMouseHighlight);
+        },
+      );
 
       function handleMouseHighlight(event) {
         if (mouseSelectionEnabled) {
-          selectAll('.active-menu-panel .slide-menu-items li.selected').forEach(
+          selectAll(".active-menu-panel .slide-menu-items li.selected").forEach(
             function (i) {
-              i.classList.remove('selected');
-            }
+              i.classList.remove("selected");
+            },
           );
-          event.currentTarget.classList.add('selected');
+          event.currentTarget.classList.add("selected");
         }
       }
     }
@@ -1063,18 +1037,18 @@ const Plugin = () => {
     if (options.keyboard) {
       //XXX add keyboard option for custom key codes, etc.
 
-      document.addEventListener('keydown', onDocumentKeyDown, false);
+      document.addEventListener("keydown", onDocumentKeyDown, false);
 
       // handle key presses within speaker notes
-      window.addEventListener('message', function (event) {
+      window.addEventListener("message", function (event) {
         var data;
         try {
           data = JSON.parse(event.data);
         } catch (e) {}
-        if (data && data.method === 'triggerKey') {
+        if (data && data.method === "triggerKey") {
           onDocumentKeyDown({
             keyCode: data.args[0],
-            stopImmediatePropagation: function () {}
+            stopImmediatePropagation: function () {},
           });
         }
       });
@@ -1082,7 +1056,7 @@ const Plugin = () => {
       // Prevent reveal from processing keyboard events when the menu is open
       if (
         config.keyboardCondition &&
-        typeof config.keyboardCondition === 'function'
+        typeof config.keyboardCondition === "function"
       ) {
         // combine user defined keyboard condition with the menu's own condition
         var userCondition = config.keyboardCondition;
@@ -1096,8 +1070,8 @@ const Plugin = () => {
       }
 
       deck.addKeyBinding(
-        { keyCode: 77, key: 'M', description: 'Toggle menu' },
-        toggleMenu
+        { keyCode: 77, key: "M", description: "Toggle menu" },
+        toggleMenu,
       );
     }
 
@@ -1123,21 +1097,21 @@ const Plugin = () => {
    * reveal DOM element.
    */
   function dispatchEvent(type, args) {
-    var event = document.createEvent('HTMLEvents', 1, 2);
+    var event = document.createEvent("HTMLEvents", 1, 2);
     event.initEvent(type, true, true);
     extend(event, args);
-    document.querySelector('.reveal').dispatchEvent(event);
+    document.querySelector(".reveal").dispatchEvent(event);
 
     // If we're in an iframe, post each reveal.js event to the
     // parent window. Used by the notes plugin
     if (config.postMessageEvents && window.parent !== window.self) {
       window.parent.postMessage(
         JSON.stringify({
-          namespace: 'reveal',
+          namespace: "reveal",
           eventName: type,
-          state: deck.getState()
+          state: deck.getState(),
         }),
-        '*'
+        "*",
       );
     }
   }
@@ -1153,7 +1127,7 @@ const Plugin = () => {
     if (!el) {
       el = document;
     }
-    return Array.prototype.slice.call(el.querySelectorAll(selector));
+    return Array.from(el.querySelectorAll(selector));
   }
 
   function create(tagName, attrs, content) {
@@ -1170,13 +1144,13 @@ const Plugin = () => {
   function changeStylesheet(id, href) {
     // take note of the previous theme and remove it, then create a new stylesheet reference and insert it
     // this is required to force a load event so we can change the menu style to match the new style
-    var stylesheet = select('link#' + id);
+    var stylesheet = select("link#" + id);
     var parent = stylesheet.parentElement;
     var sibling = stylesheet.nextElementSibling;
     stylesheet.remove();
 
     var newStylesheet = stylesheet.cloneNode();
-    newStylesheet.setAttribute('href', href);
+    newStylesheet.setAttribute("href", href);
     newStylesheet.onload = function () {
       matchRevealStyle();
     };
@@ -1185,22 +1159,22 @@ const Plugin = () => {
 
   // modified from math plugin
   function loadResource(url, type, callback) {
-    var head = document.querySelector('head');
+    var head = document.querySelector("head");
     var resource;
 
-    if (type === 'script') {
-      resource = document.createElement('script');
-      resource.type = 'text/javascript';
+    if (type === "script") {
+      resource = document.createElement("script");
+      resource.type = "text/javascript";
       resource.src = url;
-    } else if (type === 'stylesheet') {
-      resource = document.createElement('link');
-      resource.rel = 'stylesheet';
+    } else if (type === "stylesheet") {
+      resource = document.createElement("link");
+      resource.rel = "stylesheet";
       resource.href = url;
     }
 
     // Wrapper for callback to make sure it only fires once
     var finish = function () {
-      if (typeof callback === 'function') {
+      if (typeof callback === "function") {
         callback.call();
         callback = null;
       }
@@ -1210,7 +1184,7 @@ const Plugin = () => {
 
     // IE
     resource.onreadystatechange = function () {
-      if (this.readyState === 'loaded') {
+      if (this.readyState === "loaded") {
         finish();
       }
     };
@@ -1220,26 +1194,21 @@ const Plugin = () => {
   }
 
   function loadPlugin() {
-    // does not support IE8 or below
-    var supported = !ieVersion || ieVersion >= 9;
-
     // do not load the menu in the upcoming slide panel in the speaker notes
     if (
       deck.isSpeakerNotes() &&
-      window.location.search.endsWith('controls=false')
+      window.location.search.endsWith("controls=false")
     ) {
-      supported = false;
+      return;
     }
 
-    if (supported) {
-      if (!options.delayInit) initMenu();
-      dispatchEvent('menu-ready');
-    }
+    if (!options.delayInit) initMenu();
+    dispatchEvent("menu-ready");
   }
 
   return {
-    id: 'menu',
-    init: reveal => {
+    id: "menu",
+    init: (reveal) => {
       deck = reveal;
       config = deck.getConfig();
       initOptions(config);
@@ -1248,17 +1217,7 @@ const Plugin = () => {
         loadPlugin();
         return;
       }
-      loadResource(options.path + 'menu.css', 'stylesheet', function () {
-        if (options.loadIcons === undefined || options.loadIcons) {
-          loadResource(
-            options.path + 'font-awesome/css/all.css',
-            'stylesheet',
-            loadPlugin
-          );
-        } else {
-          loadPlugin();
-        }
-      });
+      loadResource(options.path + "menu.css", "stylesheet", loadPlugin);
     },
 
     toggle: toggleMenu,
@@ -1269,23 +1228,8 @@ const Plugin = () => {
     initialiseMenu: initMenu,
     isMenuInitialised: function () {
       return initialised;
-    }
+    },
   };
 };
-
-// polyfill
-if (!String.prototype.startsWith) {
-  String.prototype.startsWith = function (searchString, position) {
-    return this.substr(position || 0, searchString.length) === searchString;
-  };
-}
-if (!String.prototype.endsWith) {
-  String.prototype.endsWith = function (search, this_len) {
-    if (this_len === undefined || this_len > this.length) {
-      this_len = this.length;
-    }
-    return this.substring(this_len - search.length, this_len) === search;
-  };
-}
 
 export default Plugin;

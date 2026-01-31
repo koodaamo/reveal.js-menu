@@ -1,32 +1,28 @@
 {
   "name": "reveal.js-menu",
-  "version": "2.2.0",
+  "version": "3.0.0",
   "description": "A slideout menu for navigating reveal.js presentations",
-  "main": "menu.js",
-  "module": "menu.esm.js",
+  "type": "module",
+  "main": "./menu.js",
+  "module": "./menu.js",
   "exports": {
     ".": {
-      "import": "./menu.esm.js",
-      "require": "./menu.js",
+      "import": "./menu.js",
       "default": "./menu.js"
     },
-    "./menu.css": "./menu.css",
-    "./menu.js": "./menu.js",
-    "./menu.esm.js": "./menu.esm.js"
+    "./menu.css": "./menu.css"
   },
   "files": [
     "menu.js",
-    "menu.esm.js",
     "menu.css",
     "plugin.js",
-    "font-awesome",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "gulp",
-    "prepublishOnly": "gulp"
+    "test": "bun test ./smoke.test.js",
+    "build": "bun run build.js",
+    "prepublishOnly": "bun run build.js"
   },
   "repository": {
     "type": "git",
@@ -43,15 +39,6 @@
   },
   "homepage": "https://github.com/denehyg/reveal.js-menu#readme",
   "devDependencies": {
-    "@babel/core": "^7.10.4",
-    "@babel/preset-env": "^7.10.4",
-    "@rollup/plugin-babel": "^5.0.4",
-    "@rollup/plugin-commonjs": "^13.0.0",
-    "@rollup/plugin-node-resolve": "^8.1.0",
-    "babel-plugin-transform-html-import-to-string": "0.0.1",
-    "core-js": "^3.6.5",
-    "gulp": "^4.0.2",
-    "rollup": "^2.21.0",
-    "rollup-plugin-terser": "^6.1.0"
+    "jsdom": "^27.4.0"
   }
 }
