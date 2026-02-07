@@ -1,6 +1,6 @@
 {
   "name": "reveal.js-menu",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "A slideout menu for navigating reveal.js presentations",
   "type": "module",
   "main": "./menu.js",
@@ -26,7 +26,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/denehyg/reveal.js-menu.git"
+    "url": "git+https://github.com/koodaamo/reveal.js-menu.git"
   },
   "keywords": [
     "reveal",
@@ -35,9 +35,9 @@
   "author": "Greg Denehy",
   "license": "MIT, Copyright (C) 2020 Greg Denehy",
   "bugs": {
-    "url": "https://github.com/denehyg/reveal.js-menu/issues"
+    "url": "https://github.com/koodaamo/reveal.js-menu/issues"
   },
-  "homepage": "https://github.com/denehyg/reveal.js-menu#readme",
+  "homepage": "https://github.com/koodaamo/reveal.js-menu#readme",
   "devDependencies": {
     "jsdom": "^27.4.0"
   }

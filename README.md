@@ -1,10 +1,8 @@
 # reveal.js-menu
 
-A slideout menu plugin for [Reveal.js](https://github.com/hakimel/reveal.js) to quickly jump to any slide by title. Also optionally change the theme and set the default transition. [Check out the live demo](https://denehyg.github.io/reveal.js-menu)
+A slideout menu plugin for [Reveal.js](https://github.com/hakimel/reveal.js) to quickly jump to any slide by title. [Check out the live demo](https://denehyg.github.io/reveal.js-menu)
 
 ## Installation
-
-### Bower
 
 Download and install the package in your project:
 
@@ -79,7 +77,7 @@ Reveal.initialize({
     // element will be used.
     // Note: that a section data-menu-title attribute or an element
     // with a menu-title class will take precedence over this option
-    titleSelector: 'h1, h2, h3, h4, h5, h6',
+    titleSelector: 'h1, h2, h3, h4, h5',
 
     // If slides do not have a matching title, attempt to use the
     // start of the text content as the title instead
@@ -99,47 +97,7 @@ Reveal.initialize({
     // properties, and either a 'src' or 'content' property.
     custom: false,
 
-    // Specifies the themes that will be available in the themes
-    // menu panel. Set to 'true' to show the themes menu panel
-    // with the default themes list. Alternatively, provide an
-    // array to specify the themes to make available in the
-    // themes menu panel, for example...
-    //
-    // [
-    //     { name: 'Black', theme: 'dist/theme/black.css' },
-    //     { name: 'White', theme: 'dist/theme/white.css' },
-    //     { name: 'League', theme: 'dist/theme/league.css' },
-    //     {
-    //       name: 'Dark',
-    //       theme: 'lib/reveal.js/dist/theme/black.css',
-    //       highlightTheme: 'lib/reveal.js/plugin/highlight/monokai.css'
-    //     },
-    //     {
-    //       name: 'Code: Zenburn',
-    //       highlightTheme: 'lib/reveal.js/plugin/highlight/zenburn.css'
-    //     }
-    // ]
-    //
-    // Note: specifying highlightTheme without a theme will
-    // change the code highlight theme while leaving the
-    // presentation theme unchanged.
-    themes: false,
 
-    // Specifies the path to the default theme files. If your
-    // presentation uses a different path to the standard reveal
-    // layout then you need to provide this option, but only
-    // when 'themes' is set to 'true'. If you provide your own
-    // list of themes or 'themes' is set to 'false' the
-    // 'themesPath' option is ignored.
-    themesPath: 'dist/theme/',
-
-    // Specifies if the transitions menu panel will be shown.
-    // Set to 'true' to show the transitions menu panel with
-    // the default transitions list. Alternatively, provide an
-    // array to specify the transitions to make available in
-    // the transitions panel, for example...
-    // ['None', 'Fade', 'Slide']
-    transitions: false,
 
     // Adds a menu button to the slides to open the menu panel.
     // Set to 'false' to hide the button.
@@ -183,8 +141,7 @@ Reveal.initialize({
     // '<svg>...</svg>' for inline SVG).
     icons: {
       contents: '≡',        // Menu contents icon
-      themes: '🎨',          // Themes panel icon
-      transitions: '↔',     // Transitions panel icon
+
       close: '✕',           // Close button icon
       markerPast: '✓',      // Past slide marker
       markerActive: '▶',    // Active slide marker
@@ -194,23 +151,7 @@ Reveal.initialize({
 });
 ```
 
-### Themes Stylesheet
 
-If you are using the themes panel you need to ensure the theme stylesheet in the presentation uses the `id="theme"` attribute. For example...
-
-```html
-<link rel="stylesheet" href="css/theme/black.css" id="theme" />
-```
-
-If your themes configuration includes code highlight themes you need to ensure the highlights theme stylesheet in the presentation uses the `id="highlight-theme"` attribute. For example...
-
-```html
-<link
-  rel="stylesheet"
-  href="plugin/highlight/zenburn.css"
-  id="highlight-theme"
-/>
-```
 
 ## Slide Titles
 
@@ -314,7 +255,7 @@ You can provide menu items in your custom panels using the following format. Thi
 ```html
 <h1>Links</h1>
 <ul class="slide-menu-items">
-  <li class="slide-menu-item"><a href="#/transitions">Transitions</a></li>
+
   <li class="slide-menu-item"><a href="#/13">Code highlighting</a></li>
 </ul>
 ```
